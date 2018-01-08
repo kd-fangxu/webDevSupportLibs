@@ -18,12 +18,12 @@ public class ConditionWrapper {
 //        return queryConditionList;
 //    }
 
-    public List<QueryCondition> addCondition(String columnName, String[] value, QueryCondition.Type type){
+    public ConditionWrapper addCondition(String columnName, String[] value, QueryCondition.Type type) {
         if (queryConditionList == null) {
             queryConditionList = new ArrayList<QueryCondition>();
         }
-        QueryCondition condition=new QueryCondition(columnName,value,type);
+        QueryCondition condition = new QueryCondition(columnName, value, type);
         queryConditionList.add(condition);
-        return queryConditionList;
+        return this;
     }
 }
