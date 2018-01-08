@@ -12,6 +12,11 @@ import java.util.Date;
  */
 @MappedSuperclass
 public class BaseEntity implements Serializable {
+
+//    规则：
+//    1：表名全小写
+
+
     //除去逻辑极为清楚的比如 文章对应图片的关系类 1-N  N-N尽量少用对象属性
     //1-1也需根据业务需要控制 是否设置相关属性
 
@@ -46,7 +51,6 @@ public class BaseEntity implements Serializable {
     private void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
 
     private Date getUpdateTime() {
         return updateTime;

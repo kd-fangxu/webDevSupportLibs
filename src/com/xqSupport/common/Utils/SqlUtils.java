@@ -1,5 +1,7 @@
 package com.xqSupport.common.Utils;
 
+import com.xqSupport.common.Utils.QueryUtils.QueryCondition;
+
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,21 @@ import java.util.Map;
  * Created by xu on 2017/8/4.
  */
 public class SqlUtils {
+
+
+    public static String ConvertToWhereCondition(List<QueryCondition> conditionList) {
+
+        if (conditionList != null && conditionList.size() > 0) {
+            StringBuffer sb = new StringBuffer(" WHERE ");
+            for (QueryCondition condition : conditionList) {
+                sb.append(condition.getReleationResult());
+                sb.append(" and ");
+            }
+            return sb.substring(0, sb.toString().length() - 4);
+        }
+
+        return "";
+    }
 
     public static String ConvertToWhereCondition(Map<String, String[]> conditionMap) {
         if (conditionMap == null || conditionMap.isEmpty()) {
