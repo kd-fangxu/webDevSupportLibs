@@ -1,7 +1,9 @@
 package com.xqSupport.common.Utils;
 
 import org.apache.commons.beanutils.BeanMap;
+import org.apache.commons.beanutils.BeanUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,8 +38,15 @@ public class BeanMapUtils {
      * @return
      */
     public static <T> T mapToBean(Map<String, Object> map, T bean) {
-        BeanMap beanMap = new BeanMap(bean);
-        beanMap.putAll(map);
+//        BeanMap beanMap = new BeanMap(bean);
+//        beanMap.putAll(map);
+        try {
+            BeanUtils.populate(bean,map);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
         return bean;
     }
 
