@@ -39,4 +39,6 @@ public interface ITreeDao<T extends BaseLinkedTreeEntity> extends IBaseDao<T> {
      * @return
      */
     BaseResponse reDistribute(Integer currentNodeId, Integer targetNodeId, String action);
+
+    List<BaseLinkedTreeEntity.ZtreeNode> ConvertToZTreeNodeList(List<T> linkedTreeEntities);
 }

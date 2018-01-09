@@ -1,9 +1,11 @@
 package com.xqSupport.Service;
 
 
+import com.xqSupport.Entity.BaseEntity;
 import com.xqSupport.Entity.BaseLinkedTreeEntity;
 import com.xqSupport.common.BaseResponse;
 import com.xqSupport.common.Dao.DaoExtend.treeDao.TreeDaoImpl;
+import com.xqSupport.common.Dao.IBaseDao;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
@@ -17,6 +19,12 @@ public abstract class BaseTreeService extends BaseService implements IBaseTreeSe
 //    private Class currentTreeEntityClass;
 
     public abstract Class getCurrentTreeEntityClass();
+
+
+    @Override
+    public <T extends BaseEntity> IBaseDao<T> getBaseDao(Class<T> tClass) {
+        return super.getBaseDao(tClass);
+    }
 
     /**
      * 根据class返回封装树基本错做的treedao实例

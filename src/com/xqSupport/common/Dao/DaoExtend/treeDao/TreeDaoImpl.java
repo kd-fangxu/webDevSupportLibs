@@ -304,13 +304,17 @@ public abstract class TreeDaoImpl<T extends BaseLinkedTreeEntity> extends BaseDa
      */
     public List<BaseLinkedTreeEntity.ZtreeNode> geZTreeNodeListByFatherId(Integer fatherId, boolean isChildLoad) {
         List<T> linkedTreeEntities = getLeafNodesByFatherId(fatherId);
+        return ConvertToZTreeNodeList(linkedTreeEntities);
+    }
+
+
+    public List<BaseLinkedTreeEntity.ZtreeNode> ConvertToZTreeNodeList(List<T> linkedTreeEntities) {
         List<BaseLinkedTreeEntity.ZtreeNode> treeList = new ArrayList<BaseLinkedTreeEntity.ZtreeNode>();
         for (T entity : linkedTreeEntities) {
             treeList.addAll(entity.ConvertToZTreeNodeList());
         }
         return treeList;
     }
-
 
     private void loadChildNode(T rootEntity) {
         List<T> linkedTreeEntities = (List<T>) findByProperty("fatherId", rootEntity.getEntityId());

@@ -154,7 +154,6 @@ public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
         for (int i = 0; i < params.length; ++i) {
 
 
-
             query.setParameter(i, params[i]);
         }
         return query.list();
@@ -278,11 +277,11 @@ public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
         return pagination;
     }
 
-    public <T> List<T> findSql(String queryString) {
-        SQLQuery query = getSession().createSQLQuery(queryString.toString());
+    public <R> List<R> findSql(String queryString) {
+        SQLQuery<R> query = getSession().createSQLQuery(queryString.toString());
         query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-        List items = query.list();
-        return items;
+        List<R> list = query.list();
+        return list;
     }
 
     @SuppressWarnings({"serial", "unchecked", "hiding"})
