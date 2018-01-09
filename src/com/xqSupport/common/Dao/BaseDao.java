@@ -27,7 +27,7 @@ import java.util.*;
 //@Repository
 //@Transactional
 public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
-    //    @Autowired
+    @Autowired
     public JdbcTemplate jdbcTemplate;
     public Class<T> entityClazz;
 
@@ -152,6 +152,9 @@ public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
     public <T> List<T> findList(CharSequence queryString, Object... params) {
         Query query = getSession().createQuery(queryString.toString());
         for (int i = 0; i < params.length; ++i) {
+
+
+
             query.setParameter(i, params[i]);
         }
         return query.list();
