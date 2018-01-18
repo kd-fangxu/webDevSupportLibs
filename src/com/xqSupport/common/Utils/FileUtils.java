@@ -48,6 +48,8 @@ public class FileUtils {
     }
 
     /**
+     * 常用
+     *
      * @param request
      * @param file
      * @param releatedPath : upload \ upload/bookitemImg
