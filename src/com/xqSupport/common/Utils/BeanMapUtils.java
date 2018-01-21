@@ -37,11 +37,11 @@ public class BeanMapUtils {
      * @param bean
      * @return
      */
-    public static <T> T mapToBean(Map<String, Object> map, T bean) {
+    public static <T> T mapToBean(Map map, T bean) {
 //        BeanMap beanMap = new BeanMap(bean);
 //        beanMap.putAll(map);
         try {
-            BeanUtils.populate(bean,map);
+            BeanUtils.populate(bean, map);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

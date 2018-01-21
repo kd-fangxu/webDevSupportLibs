@@ -8,6 +8,10 @@ public class ConditionWrapper {
         return queryConditionList;
     }
 
+    public void setQueryConditionList(List<QueryCondition> queryConditionList) {
+        this.queryConditionList = queryConditionList;
+    }
+
     private List<QueryCondition> queryConditionList;
 
 //    public List<QueryCondition> addCondition(QueryCondition condition) {
@@ -26,4 +30,25 @@ public class ConditionWrapper {
         queryConditionList.add(condition);
         return this;
     }
+
+    public ConditionWrapper addCondition(String columnName, List<String> valueList, QueryCondition.Type type) {
+        if (queryConditionList == null) {
+            queryConditionList = new ArrayList<QueryCondition>();
+        }
+        QueryCondition condition = new QueryCondition(columnName, valueList, type);
+        queryConditionList.add(condition);
+        return this;
+    }
+
+    public ConditionWrapper addCondition(String columnName, String valueStr, QueryCondition.Type type) {
+        if (queryConditionList == null) {
+            queryConditionList = new ArrayList<QueryCondition>();
+        }
+        List<String> paramsList = new ArrayList<String>();
+        paramsList.add(valueStr);
+        QueryCondition condition = new QueryCondition(columnName, paramsList, type);
+        queryConditionList.add(condition);
+        return this;
+    }
+
 }

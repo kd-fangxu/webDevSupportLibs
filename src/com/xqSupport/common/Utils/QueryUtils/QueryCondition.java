@@ -1,5 +1,8 @@
 package com.xqSupport.common.Utils.QueryUtils;
 
+
+import java.util.List;
+
 public class QueryCondition {
     public enum Type {
         equal,
@@ -22,6 +25,11 @@ public class QueryCondition {
         this.type = type;
     }
 
+    public QueryCondition(String columnName, List<String> valuelist, Type type) {
+        this.columnName = columnName;
+        this.value = (String[]) valuelist.toArray();
+        this.type = type;
+    }
 
     public String[] getValue() {
         return value;
@@ -53,11 +61,11 @@ public class QueryCondition {
         String valueStr = valueTranformer();
         switch (this.type) {
             case equal:
-                valueStr="\'"+valueStr+"\'";
+                valueStr = "\'" + valueStr + "\'";
                 releationResult = columnName + " = " + valueStr;
                 break;
             case unequal:
-                valueStr="\'"+valueStr+"\'";
+                valueStr = "\'" + valueStr + "\'";
                 releationResult = columnName + " != " + valueStr;
                 break;
             case like:

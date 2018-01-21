@@ -1,5 +1,6 @@
 package com.xqSupport.common.Utils;
 
+import com.xqSupport.common.Utils.QueryUtils.ConditionWrapper;
 import com.xqSupport.common.Utils.QueryUtils.QueryCondition;
 
 import java.math.BigInteger;
@@ -13,7 +14,14 @@ public class SqlUtils {
 
 
     public static String ConvertToWhereCondition(List<QueryCondition> conditionList) {
+        ConditionWrapper wrapper = new ConditionWrapper();
+        wrapper.setQueryConditionList(conditionList);
+        return ConvertToWhereCondition(wrapper);
+    }
 
+    public static String ConvertToWhereCondition(ConditionWrapper wrapper) {
+
+        List<QueryCondition> conditionList = wrapper.getQueryConditionList();
         if (conditionList != null && conditionList.size() > 0) {
             StringBuffer sb = new StringBuffer(" WHERE ");
             for (QueryCondition condition : conditionList) {

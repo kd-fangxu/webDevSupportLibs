@@ -2,14 +2,18 @@ package com.xqSupport.common.Dao.DaoExtend.releationDao;
 
 import com.xqSupport.Entity.BaseEntity;
 import com.xqSupport.common.Dao.BaseDao;
+import com.xqSupport.common.Utils.QueryUtils.ConditionWrapper;
+import com.xqSupport.common.Utils.QueryUtils.QueryCondition;
+import com.xqSupport.common.Utils.SqlUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by mac on 2018/1/18.
  */
-public abstract class ReleationDao<T> extends BaseDao implements IReleationDao {
+public abstract class ReleationDao<T> extends BaseDao<T> implements IReleationDao<T> {
 
 
     /**
@@ -19,8 +23,20 @@ public abstract class ReleationDao<T> extends BaseDao implements IReleationDao {
      */
     public abstract String getLeafEntityTableName();
 
+    /**
+     * 根据class 返回 关系表关联的两方表名
+     *
+     * @param classT
+     * @return
+     */
     public abstract String getRleatedTableNameByEntityClass(Class classT);
 
+    /**
+     * 根据class获取在关系表中的外键列名
+     *
+     * @param classT
+     * @return
+     */
     public abstract String getColumnNameByEntityClass(Class classT);
 
 
@@ -39,4 +55,13 @@ public abstract class ReleationDao<T> extends BaseDao implements IReleationDao {
         return list;
     }
 
+    public void addReleation(T releationEntity) {
+//        String whereCondition = SqlUtils.ConvertToWhereCondition(new ConditionWrapper()
+//                .addCondition(getRleatedTableNameByEntityClass(firstClass), firstEntityId + "", QueryCondition.Type.equal)
+//                .addCondition(getRleatedTableNameByEntityClass(secondClass), secondEntityId + "", QueryCondition.Type.equal));
+//        String deleteSql = "delete from " + getLeafEntityTableName() + whereCondition;
+
+        delete(releationEntity);
+        save(releationEntity);
+    }
 }

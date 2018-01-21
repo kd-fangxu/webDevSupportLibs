@@ -10,6 +10,10 @@ import java.util.UUID;
  * Created by xu on 2017/8/3.
  */
 public class FileUtils {
+
+    //辅导班课程图片
+    public static String PATH_TUCLASS_COURCE_PIC = "tuclass/cource";
+
     /**
      * @param file
      * @param path              String path = request.getSession().getServletContext().getRealPath("/") + releatedPath + "/";
@@ -53,7 +57,7 @@ public class FileUtils {
      * @param request
      * @param file
      * @param releatedPath : upload \ upload/bookitemImg
-     * @return
+     * @return 存储文件的后缀路径
      */
     public static String saveFile(HttpServletRequest request, MultipartFile file, String releatedPath) {
         String path = request.getSession().getServletContext().getRealPath("/") + releatedPath + "/";

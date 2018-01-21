@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 适配Ztree格式的LinkedTreeEntity子类
  * Created by xu on 2017/11/30.
  */
 public abstract class BaseLinkedTreeEntity extends TemLinkedTreeEntity {
+
     private List<BaseLinkedTreeEntity> childEntities;
 
     public List<BaseLinkedTreeEntity> getChildEntities() {

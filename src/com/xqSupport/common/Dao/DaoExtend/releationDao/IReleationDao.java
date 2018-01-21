@@ -10,6 +10,8 @@ import java.util.List;
 /**
  * Created by mac on 2018/1/18.
  */
-public interface IReleationDao<T extends BaseEntity> extends IBaseDao<T> {
+public interface IReleationDao<T> extends IBaseDao<T> {
     List getList(Serializable releationEntityid, Class releatedClass, Class targetClass);
+
+    void addReleation( T releationEntity);
 }

@@ -14,8 +14,8 @@ public class BaseController {
     /**
      * 转化请求对象参数为javaBean  key值对应属性名规则
      *
-     * @param 泛型
-     * @param 请求对象
+     * @param tClass
+     * @param request
      * @param <T>
      * @return
      */
@@ -33,6 +33,7 @@ public class BaseController {
         }
         return null;
     }
+
     public String transToJsonStr(Object ob) {
 //        ReflectiveAspectJAdvisorFactorycom.microsoft.sqlserver.jdbc.SQLServerDriver
 

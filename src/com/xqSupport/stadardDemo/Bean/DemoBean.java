@@ -11,6 +11,38 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "DemoBean", schema = "xq", catalog = "")
 public class DemoBean extends BaseEntity {
+    public String getDemoValue() {
+        return demoValue;
+    }
+
+    public void setDemoValue(String demoValue) {
+        this.demoValue = demoValue;
+    }
+
+    public Integer getCommentApprove() {
+        return commentApprove;
+    }
+
+    public void setCommentApprove(Integer commentApprove) {
+        this.commentApprove = commentApprove;
+    }
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     @Basic
     @Column(name = "demoValue", nullable = true, length = 20)
     String demoValue;
@@ -22,7 +54,7 @@ public class DemoBean extends BaseEntity {
     @Column(nullable = false, columnDefinition = "INT default 0")
     private Integer commentApprove;
     //2、属性为String
-    @Column(columnDefinition = "varchar(128) default ‘hello’")
+    @Column(columnDefinition = "varchar(128) default 'hello'")
     private String test;
 //3、对于String类型的默认值，也可以直接给属性赋值，如：
 //    private String userName=”蓝色裂痕~”；
