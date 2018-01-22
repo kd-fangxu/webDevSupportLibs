@@ -14,10 +14,29 @@ public interface ITreeDao<T extends BaseLinkedTreeEntity> extends IBaseDao<T> {
 
     BaseResponse deleteNode(Integer nodeId);
 
+    /**
+     * 获取填充子类的节点对象
+     *
+     * @param nodeId
+     * @return
+     */
     T getEntityByNodeId(Integer nodeId, boolean isChildLoad);
 
+    /**
+     * 根据fatherid获取叶子节点并递归填充下层所有叶子节点
+     * 默认加载叶子节点
+     *
+     * @param fatherId
+     * @return 返回层级树结构
+     */
     List<T> getEntitiesByFatherId(Integer fatherId);
 
+    /**
+     * 已nodeId为锚点返回Ztree格式节点列表
+     *
+     * @param nodeId
+     * @return
+     */
     List<BaseLinkedTreeEntity.ZtreeNode> getZTreeNodeListByNodeId(Integer nodeId);
 
     List<BaseLinkedTreeEntity.ZtreeNode> geZTreeNodeListByFatherId(Integer fatherId, boolean isChildLoad);

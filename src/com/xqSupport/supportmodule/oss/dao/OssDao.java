@@ -1,9 +1,9 @@
-package com.xqSupport.oss.dao;
+package com.xqSupport.supportmodule.oss.dao;
 
 import com.xqSupport.common.BaseResponse;
 import com.xqSupport.common.Dao.BaseDao;
 import com.xqSupport.common.Utils.FileUtils;
-import com.xqSupport.oss.entity.OssSourceEntity;
+import com.xqSupport.supportmodule.oss.entity.OssSourceEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 

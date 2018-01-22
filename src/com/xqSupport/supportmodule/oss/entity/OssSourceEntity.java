@@ -1,4 +1,4 @@
-package com.xqSupport.oss.entity;
+package com.xqSupport.supportmodule.oss.entity;
 
 import com.xqSupport.Entity.BaseEntity;
 
