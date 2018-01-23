@@ -79,10 +79,6 @@ public abstract class TreeDaoImpl<T extends BaseLinkedTreeEntity> extends BaseDa
     }
 
 
-    public void addNode(List<T> entities) {
-
-    }
-
     public BaseResponse deleteNode(Integer nodeId) {
 
 
@@ -127,12 +123,7 @@ public abstract class TreeDaoImpl<T extends BaseLinkedTreeEntity> extends BaseDa
         return BaseResponse.create(1, "成功", "");
     }
 
-    /**
-     * 预排序根据父节点获取所有子节点  无层级结构
-     *
-     * @param fatherId
-     * @return
-     */
+
     public List<T> getLeafNodesByFatherId(Integer fatherId) {
         T fatherNode = getById(fatherId);
         List<T> objects = new ArrayList<T>();
@@ -248,22 +239,8 @@ public abstract class TreeDaoImpl<T extends BaseLinkedTreeEntity> extends BaseDa
         return entity;
     }
 
-    /**
-     * 根据fatherid获取叶子节点并递归填充下层所有叶子节点
-     * 默认加载叶子节点
-     *
-     * @param fatherId
-     * @return 返回层级树结构
-     */
     public List<T> getEntitiesByFatherId(Integer fatherId) {
-        List<T> linkedTreeEntities = (List<T>) findByProperty("fatherId", fatherId);
-        for (T entity : linkedTreeEntities) {
-            if (entity != null) {
-                loadChildNode(entity);
-            }
-
-        }
-        return linkedTreeEntities;
+        return getEntitiesByFatherId(fatherId, true);
     }
 
     public List<T> getEntitiesByFatherId(Integer fatherId, boolean isChildLoad) {
@@ -280,19 +257,7 @@ public abstract class TreeDaoImpl<T extends BaseLinkedTreeEntity> extends BaseDa
     }
 
 
-    public List<BaseLinkedTreeEntity.ZtreeNode> getZTreeNodeListByNodeId(Integer nodeId) {
-        T entityByNodeId = getEntityByNodeId(nodeId, true);
-        return entityByNodeId.ConvertToZTreeNodeList();
-    }
-
-    /**
-     * 已fatherid为锚点返回ztree格式的节点列表
-     *
-     * @param fatherId
-     * @param isChildLoad
-     * @return
-     */
-    public List<BaseLinkedTreeEntity.ZtreeNode> geZTreeNodeListByFatherId(Integer fatherId, boolean isChildLoad) {
+    public List<BaseLinkedTreeEntity.ZtreeNode> geZTreeNodeListByFatherId(Integer fatherId) {
         List<T> linkedTreeEntities = getLeafNodesByFatherId(fatherId);
         return ConvertToZTreeNodeList(linkedTreeEntities);
     }
@@ -321,19 +286,5 @@ public abstract class TreeDaoImpl<T extends BaseLinkedTreeEntity> extends BaseDa
         }
     }
 
-    public void save(List<T> list) {
 
-    }
-
-    public void insert(List<T> list) {
-
-    }
-
-    public void delete(List<T> list) {
-
-    }
-
-    public void update(List<T> list) {
-
-    }
 }

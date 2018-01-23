@@ -71,8 +71,7 @@ public abstract class BaseTreeService extends BaseService implements IBaseTreeSe
     }
 
     public List<BaseLinkedTreeEntity.ZtreeNode> getZtreeNodeList(Integer fatherId) {
-        return getTreeDao(getCurrentTreeEntityClass()).geZTreeNodeListByFatherId(fatherId, true);
-//        return getTreeDao(getCurrentTreeEntityClass())
+        return getTreeDao(getCurrentTreeEntityClass()).geZTreeNodeListByFatherId(fatherId);
     }
 
     public BaseResponse reDistribute(Integer currentNodeId, Integer targetNodeId, String action) {
