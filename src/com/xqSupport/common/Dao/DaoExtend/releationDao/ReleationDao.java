@@ -32,7 +32,7 @@ public abstract class ReleationDao<T> extends BaseDao<T> implements IReleationDa
     public abstract String getRleatedTableNameByEntityClass(Class classT);
 
     /**
-     * 根据class获取在关系表中的外键列名
+     * 根据class获取在关系表中的外键或唯一约束列名
      *
      * @param classT
      * @return
@@ -48,7 +48,7 @@ public abstract class ReleationDao<T> extends BaseDao<T> implements IReleationDa
      */
     public List getList(Serializable releationEntityid, Class releatedClass, Class targetClass) {
         String sql = "selecte distinct k.* from " + getLeafEntityTableName() + "r left join " +
-                getRleatedTableNameByEntityClass(targetClass) + " k on k.id = r.id where " +
+                getRleatedTableNameByEntityClass(targetClass) + " k on k.id = r." + getColumnNameByEntityClass(targetClass) + " where " +
                 getColumnNameByEntityClass(targetClass) + ".id = " + releationEntityid;
         List list = findSql(sql);
 

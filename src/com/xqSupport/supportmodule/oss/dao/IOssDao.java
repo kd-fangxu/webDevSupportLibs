@@ -24,4 +24,5 @@ public interface IOssDao extends IBaseDao<OssSourceEntity> {
 
     BaseResponse deleteSource(HttpServletRequest request, Serializable ossEntityKey, boolean isDeleteFile);
 
+    OssSourceEntity getByKey(String key);
 }

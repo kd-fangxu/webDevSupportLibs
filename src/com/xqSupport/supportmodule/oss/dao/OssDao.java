@@ -20,6 +20,14 @@ import java.util.UUID;
 public class OssDao extends BaseDao<OssSourceEntity> implements IOssDao {
 
 
+    public OssSourceEntity getByKey(String key) {
+        List<OssSourceEntity> ossSourceEntities = findByProperty("sourceKey", key);
+        if (ossSourceEntities != null && ossSourceEntities.size() > 0) {
+            return ossSourceEntities.get(0);
+        }
+        return null;
+    }
+
     public OssSourceEntity saveSource(HttpServletRequest request, MultipartFile file, String releatedPath) {
         String footerPath = FileUtils.saveFile(request, file, releatedPath);
         if (footerPath != null) {
