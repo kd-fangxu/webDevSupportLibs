@@ -20,7 +20,8 @@ public class BaseEntity implements Serializable {
     //除去逻辑极为清楚的比如 文章对应图片的关系类 1-N  N-N尽量少用对象属性
     //1-1也需根据业务需要控制 是否设置相关属性
 
-    @Column(name = "createTime", nullable = true)
+    @Column(name = "createTime", nullable = true, updatable = false,
+            columnDefinition = "timestamp default current_timestamp comment '创建时间'")
 //    @org.hibernate.annotations.Generated(GenerationTime.ALWAYS)
     @org.hibernate.annotations.CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

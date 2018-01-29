@@ -1,5 +1,7 @@
 package com.xqSupport.common.Dao;
 
+import com.xqSupport.common.Utils.BeanMapUtils;
+import com.xqSupport.common.Utils.SpringContextUtils;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -11,6 +13,8 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -47,6 +51,20 @@ public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
 //            this.entityClazz = (Class<T>) type.g
         }
 
+    }
+
+    /**
+     * dao快速生成
+     *
+     * @param tClass
+     * @param <R>
+     * @return
+     */
+    public static <R> BaseDao<R> getBaseDao(Class<R> tClass) {
+        BaseDao<R> rBaseDao = new BaseDao<R>();
+        rBaseDao.entityClazz = tClass;
+        rBaseDao.setSessionFactory0((SessionFactory) SpringContextUtils.getContext().getBean("sessionFactory"));
+        return rBaseDao;
     }
 
     @Autowired
@@ -287,7 +305,7 @@ public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
     @SuppressWarnings({"serial", "unchecked", "hiding"})
     public <T> Pagination<T> findSqlPagination(CharSequence queryString, final CharSequence countString, final Map<String, Object> params, int pageIndex, int pageSize) {
-        SQLQuery query = getSession().createSQLQuery(queryString.toString());
+        SQLQuery<T> query = getSession().createSQLQuery(queryString.toString());
         query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 
         if ((pageSize > 0) && (pageIndex > 0)) {
@@ -298,8 +316,7 @@ public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
         if ((params != null) && (!(params.isEmpty()))) {
             setParameter(query, params);
         }
-        @SuppressWarnings("rawtypes")
-        List items = query.list();
+        List<T> items = query.list();
         BigInteger rowsCount = BigInteger.valueOf(0L);
 
         if ((pageSize > 0) && (pageIndex > 0)) {
@@ -317,6 +334,46 @@ public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
         @SuppressWarnings("rawtypes")
         Pagination pagination = new Pagination(pageIndex, pageSize, rowsCount.intValue());
         pagination.setItems(items);
+        return pagination;
+    }
+
+    public <T> Pagination<T> findSqlPagination(Class<T> tClass, CharSequence queryString, final CharSequence countString, final Map<String, Object> params, int pageIndex, int pageSize) {
+        SQLQuery query = getSession().createSQLQuery(queryString.toString());
+        query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+
+        if ((pageSize > 0) && (pageIndex > 0)) {
+            query.setFirstResult((pageIndex < 2) ? 0 : (pageIndex - 1) * pageSize);
+            query.setMaxResults(pageSize);
+        }
+
+        if ((params != null) && (!(params.isEmpty()))) {
+            setParameter(query, params);
+        }
+        List<Map<String, Object>> items = (List<Map<String, Object>>) query.list();
+        BigInteger rowsCount = BigInteger.valueOf(0L);
+
+        if ((pageSize > 0) && (pageIndex > 0)) {
+            rowsCount = (BigInteger) executeQuery(new HibernateHandler() {
+                public Object doInHibernate(Session session) {
+                    SQLQuery query = session.createSQLQuery(countString.toString());
+                    if ((params != null) && (!(params.isEmpty()))) {
+                        setParameter(query, params);
+                    }
+                    return query.uniqueResult();
+                }
+            });
+        }
+
+        @SuppressWarnings("rawtypes")
+        Pagination pagination = new Pagination(pageIndex, pageSize, rowsCount.intValue());
+
+        try {
+            pagination.setItems(BeanMapUtils.mapsToObjects(items, tClass));
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         return pagination;
     }
 

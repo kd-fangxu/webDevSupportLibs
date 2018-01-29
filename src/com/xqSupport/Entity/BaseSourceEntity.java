@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
 public class BaseSourceEntity extends BaseEntity {
     @Column(name = "souceUrl", nullable = true, columnDefinition = "TEXT")
     private String souceUrl;
-    @Column(nullable = false, columnDefinition = "INT default 0")
+    @Column(nullable = true, columnDefinition = "INT default 0")
     private Integer groupOrder;
 
     public String getSouceUrl() {

@@ -187,6 +187,9 @@ public interface IBaseDao<T> {
     public <T> Pagination<T> findSqlPagination(final CharSequence queryString, final CharSequence countString,
                                                final Map<String, Object> params, int pageIndex, int pageSize);
 
+
+    <T> Pagination<T> findSqlPagination(Class<T> tClass, CharSequence queryString, final CharSequence countString, final Map<String, Object> params, int pageIndex, int pageSize);
+
     /**
      * 执行数据库更新操作
      *

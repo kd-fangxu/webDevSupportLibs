@@ -2,6 +2,8 @@ package com.xqSupport.common.Utils;
 
 import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class BeanMapUtils {
 //        BeanMap beanMap = new BeanMap(bean);
 //        beanMap.putAll(map);
         try {
+            ConvertUtils.register(new DateConverter(null), java.util.Date.class);//添加这一行代码，重新注册一个转换器，也可以自定义
             BeanUtils.populate(bean, map);
         } catch (IllegalAccessException e) {
             e.printStackTrace();

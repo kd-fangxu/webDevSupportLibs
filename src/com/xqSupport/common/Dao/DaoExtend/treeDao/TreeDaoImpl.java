@@ -244,7 +244,8 @@ public abstract class TreeDaoImpl<T extends BaseLinkedTreeEntity> extends BaseDa
     }
 
     public List<T> getEntitiesByFatherId(Integer fatherId, boolean isChildLoad) {
-        List<T> linkedTreeEntities = (List<T>) findByProperty("fatherId", fatherId);
+//        List<T> linkedTreeEntities = (List<T>) findByProperty("fatherId", fatherId);
+        List<T> linkedTreeEntities = findList("from " + getEntityClassName() + " where fatherId = " + fatherId + " order by groupOrder");
         if (isChildLoad) {
             for (T entity : linkedTreeEntities) {
                 if (entity != null) {
