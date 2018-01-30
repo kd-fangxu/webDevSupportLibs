@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class SqlUtils {
 
-
+    @Deprecated
     public static String ConvertToWhereCondition(List<QueryCondition> conditionList) {
         ConditionWrapper wrapper = new ConditionWrapper();
         wrapper.setQueryConditionList(conditionList);
@@ -24,16 +24,32 @@ public class SqlUtils {
         List<QueryCondition> conditionList = wrapper.getQueryConditionList();
         if (conditionList != null && conditionList.size() > 0) {
             StringBuffer sb = new StringBuffer(" WHERE ");
+            int i = 0;
             for (QueryCondition condition : conditionList) {
-                sb.append(condition.getReleationResult());
-                sb.append(" and ");
-            }
-            return sb.substring(0, sb.toString().length() - 4);
-        }
+                if (i > 0) {
+                    switch (condition.getConditionReleationType()) {
+                        case AND:
+                            sb.append(" and ");
+                            break;
+                        case OR:
+                            sb.append(" or ");
+                            break;
+                        default:
+                            sb.append(" and ");
+                            break;
+                    }
 
+                }
+                sb.append(condition.getReleationResult());
+//                sb.append(" and ");
+                i = i + 1;
+            }
+//            return sb.substring(0, sb.toString().length() - 4);
+        }
         return "";
     }
 
+    @Deprecated
     public static String ConvertToWhereCondition(Map<String, String[]> conditionMap) {
         if (conditionMap == null || conditionMap.isEmpty()) {
             return "";
@@ -59,6 +75,12 @@ public class SqlUtils {
         return sb.substring(0, sb.toString().length() - 4);
     }
 
+    /**
+     * 返回查询总数 配合分页使用
+     *
+     * @param sql
+     * @return
+     */
     public static String ConvertSumSql(String sql) {
         return String.format("SELECT  COUNT(*) as count from (%s) as queryStr", sql);
     }

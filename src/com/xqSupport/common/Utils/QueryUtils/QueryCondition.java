@@ -14,10 +14,37 @@ public class QueryCondition {
         likeEnder
     }
 
+    public enum ConditionReleationType {
+        AND,
+        OR;
+    }
+
     private String columnName;
     private String[] value;
     private String releationResult;
     private Type type;
+
+    public ConditionReleationType getConditionReleationType() {
+        return conditionReleationType;
+    }
+
+    private ConditionReleationType conditionReleationType = ConditionReleationType.AND;//默认关系为AND
+
+    public QueryCondition(String columnName, String[] value, Type type, ConditionReleationType conditionReleationType) {
+        this.columnName = columnName;
+        this.value = value;
+        this.releationResult = releationResult;
+        this.type = type;
+        this.conditionReleationType = conditionReleationType;
+    }
+
+    public QueryCondition(String columnName, List<String> valuelist, Type type, ConditionReleationType conditionReleationType) {
+        this.columnName = columnName;
+        this.value = (String[]) valuelist.toArray();
+        this.releationResult = releationResult;
+        this.type = type;
+        this.conditionReleationType = conditionReleationType;
+    }
 
     public QueryCondition(String columnName, String[] value, Type type) {
         this.columnName = columnName;

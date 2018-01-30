@@ -14,41 +14,74 @@ public class ConditionWrapper {
 
     private List<QueryCondition> queryConditionList;
 
-//    public List<QueryCondition> addCondition(QueryCondition condition) {
-//        if (queryConditionList == null) {
-//            queryConditionList = new ArrayList<QueryCondition>();
-//        }
-//        queryConditionList.add(condition);
-//        return queryConditionList;
-//    }
-
+    @Deprecated
     public ConditionWrapper addCondition(String columnName, String[] value, QueryCondition.Type type) {
-        if (queryConditionList == null) {
-            queryConditionList = new ArrayList<QueryCondition>();
-        }
-        QueryCondition condition = new QueryCondition(columnName, value, type);
-        queryConditionList.add(condition);
+        addCondition(columnName, value, type, QueryCondition.ConditionReleationType.AND);
         return this;
     }
+
+    @Deprecated
 
     public ConditionWrapper addCondition(String columnName, List<String> valueList, QueryCondition.Type type) {
-        if (queryConditionList == null) {
-            queryConditionList = new ArrayList<QueryCondition>();
-        }
-        QueryCondition condition = new QueryCondition(columnName, valueList, type);
-        queryConditionList.add(condition);
+        addCondition(columnName, (String[]) valueList.toArray(), type);
         return this;
     }
+
+    @Deprecated
 
     public ConditionWrapper addCondition(String columnName, String valueStr, QueryCondition.Type type) {
+        List<String> paramsList = new ArrayList<String>();
+        paramsList.add(valueStr);
+        addCondition(columnName, paramsList, type);
+        return this;
+    }
+
+    @Deprecated
+
+    public ConditionWrapper addCondition(String columnName, String[] value, QueryCondition.Type type, QueryCondition.ConditionReleationType conditionReleationType) {
         if (queryConditionList == null) {
             queryConditionList = new ArrayList<QueryCondition>();
         }
-        List<String> paramsList = new ArrayList<String>();
-        paramsList.add(valueStr);
-        QueryCondition condition = new QueryCondition(columnName, paramsList, type);
+        QueryCondition condition = new QueryCondition(columnName, value, type, conditionReleationType);
         queryConditionList.add(condition);
         return this;
     }
 
+    /**
+     * and 关系 添加一个查询条件
+     *
+     * @param columnName
+     * @param valueList
+     * @param type
+     * @return
+     */
+    public ConditionWrapper andCondition(String columnName, List<String> valueList, QueryCondition.Type type) {
+        addCondition(columnName, (String[]) valueList.toArray(), type, QueryCondition.ConditionReleationType.AND);
+        return this;
+    }
+
+    public ConditionWrapper andCondition(String columnName, String valueStr, QueryCondition.Type type) {
+        addCondition(columnName, valueStr, type);
+        return this;
+    }
+
+    /**
+     * or 关系 添加有个查询条件
+     *
+     * @param columnName
+     * @param valueList
+     * @param type
+     * @return
+     */
+    public ConditionWrapper orCondition(String columnName, List<String> valueList, QueryCondition.Type type) {
+        addCondition(columnName, (String[]) valueList.toArray(), type, QueryCondition.ConditionReleationType.OR);
+        return this;
+    }
+
+    public ConditionWrapper orCondition(String columnName, String valueStr, QueryCondition.Type type) {
+        List<String> paramsList = new ArrayList<String>();
+        paramsList.add(valueStr);
+        addCondition(columnName, (String[]) paramsList.toArray(), type, QueryCondition.ConditionReleationType.OR);
+        return this;
+    }
 }
