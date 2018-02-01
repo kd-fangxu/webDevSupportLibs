@@ -26,6 +26,8 @@ public class GeoHash {
         setMinLatLng();
     }
 
+
+
     public int gethashLength() {
         return hashLength;
     }

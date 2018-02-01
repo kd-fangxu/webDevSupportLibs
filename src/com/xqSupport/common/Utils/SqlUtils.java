@@ -19,6 +19,12 @@ public class SqlUtils {
         return ConvertToWhereCondition(wrapper);
     }
 
+    /**
+     * 装换条件容器里的条件为sql 查询语句
+     *
+     * @param wrapper
+     * @return
+     */
     public static String ConvertToWhereCondition(ConditionWrapper wrapper) {
 
         List<QueryCondition> conditionList = wrapper.getQueryConditionList();

@@ -74,14 +74,14 @@ public class ConditionWrapper {
      * @return
      */
     public ConditionWrapper orCondition(String columnName, List<String> valueList, QueryCondition.Type type) {
-        addCondition(columnName, (String[]) valueList.toArray(), type, QueryCondition.ConditionReleationType.OR);
+        addCondition(columnName, (String[]) valueList.toArray(new String[0]), type, QueryCondition.ConditionReleationType.OR);
         return this;
     }
 
     public ConditionWrapper orCondition(String columnName, String valueStr, QueryCondition.Type type) {
         List<String> paramsList = new ArrayList<String>();
         paramsList.add(valueStr);
-        addCondition(columnName, (String[]) paramsList.toArray(), type, QueryCondition.ConditionReleationType.OR);
+        addCondition(columnName, (String[]) paramsList.toArray(new String[0]), type, QueryCondition.ConditionReleationType.OR);
         return this;
     }
 }
