@@ -6,13 +6,13 @@ import java.util.Map;
 public class CommonQueryDTO {
 
 
-    private Integer currentPage;
+    private Integer page;
 
     private Integer pageSize;
 
 
     public CommonQueryDTO() {
-        currentPage = 1;
+        page = 1;
         pageSize = 30;
 
     }
@@ -42,12 +42,12 @@ public class CommonQueryDTO {
         this.condition = condition;
     }
 
-    public Integer getCurrentPage() {
-        return currentPage;
+    public Integer getPage() {
+        return page;
     }
 
-    public void setCurrentPage(Integer currentPage) {
-        this.currentPage = currentPage;
+    public void setPage(Integer page) {
+        this.page = page;
     }
 
     public Integer getPageSize() {

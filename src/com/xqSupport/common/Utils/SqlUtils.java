@@ -50,6 +50,7 @@ public class SqlUtils {
 //                sb.append(" and ");
                 i = i + 1;
             }
+            return sb.toString();
 //            return sb.substring(0, sb.toString().length() - 4);
         }
         return "";

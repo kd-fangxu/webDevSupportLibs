@@ -128,14 +128,19 @@ public abstract class TreeDaoImpl<T extends BaseLinkedTreeEntity> extends BaseDa
         T fatherNode = getById(fatherId);
         List<T> objects = new ArrayList<T>();
         if (fatherNode != null) {
-            String nodeName = getEntityClassName();
-            Map<String, Object> paramMap = new HashMap<String, Object>();
-            List<T> list = findList("from " + nodeName + " node where node.lft  >" + fatherNode.getLft() + " and node.rgt<" + fatherNode.getRgt()
-                    + "order by node.lft asc", paramMap);
-            objects.addAll(list);
-            return objects;
+            if (fatherNode.getLft() != null && fatherNode.getRgt() != null) {//如果左右节点都存在
+                String nodeName = getEntityClassName();
+                Map<String, Object> paramMap = new HashMap<String, Object>();
+                List<T> list = findList("from " + nodeName + " node where node.lft  >" + fatherNode.getLft() + " and node.rgt<" + fatherNode.getRgt()
+                        + " order by node.lft asc", paramMap);
+                objects.addAll(list);
+                return objects;
+            } else {
+                return getEntitiesByFatherId(fatherId, true, true);
+            }
+
         } else if (fatherId < 0) {//父节点未找到  返回整数
-            List<T> list = findList("from " + getEntityClassName() + " node where node.lft>=0" + "order by node.lft asc", new HashMap<String, Object>());
+            List<T> list = findList("from " + getEntityClassName() + " node where node.lft >= 0" + " order by node.lft asc", new HashMap<String, Object>());
             objects.addAll(list);
 //            return objects;
         }
@@ -257,6 +262,35 @@ public abstract class TreeDaoImpl<T extends BaseLinkedTreeEntity> extends BaseDa
         return linkedTreeEntities;
     }
 
+    /**
+     * 根据父id获取子id
+     *
+     * @param fatherId
+     * @param isChildLoad 是否加载子节点
+     * @param isFlat      是否父子节点 平铺
+     * @return
+     */
+    public List<T> getEntitiesByFatherId(Integer fatherId, boolean isChildLoad, boolean isFlat) {
+//        List<T> linkedTreeEntities = (List<T>) findByProperty("fatherId", fatherId);
+        List<T> linkedTreeEntities = findList("from " + getEntityClassName() + " where fatherId = " + fatherId + " order by groupOrder");
+        if (isChildLoad) {
+            for (T entity : linkedTreeEntities) {
+                if (entity != null) {
+                    loadChildNode(entity);
+                }
+
+            }
+        }
+
+        if (isFlat) {
+
+            List<T> flatedChildList = flatNodeListByFatherId(linkedTreeEntities);
+            linkedTreeEntities.addAll(flatedChildList);
+
+        }
+        return linkedTreeEntities;
+    }
+
 
     public List<BaseLinkedTreeEntity.ZtreeNode> geZTreeNodeListByFatherId(Integer fatherId) {
         List<T> linkedTreeEntities = getLeafNodesByFatherId(fatherId);
@@ -268,6 +302,22 @@ public abstract class TreeDaoImpl<T extends BaseLinkedTreeEntity> extends BaseDa
         List<BaseLinkedTreeEntity.ZtreeNode> treeList = new ArrayList<BaseLinkedTreeEntity.ZtreeNode>();
         for (T entity : linkedTreeEntities) {
             treeList.addAll(entity.ConvertToZTreeNodeList());
+        }
+        return treeList;
+    }
+
+    /**
+     * 将成结构的节点列表平铺
+     *
+     * @param list
+     * @return
+     */
+    private List<T> flatNodeListByFatherId(List<T> list) {
+        List<T> treeList = new ArrayList<T>();
+        for (T entity : list) {
+            if (entity.getChildEntities() != null) {
+                treeList.addAll(flatNodeListByFatherId((List<T>) entity.getChildEntities()));
+            }
         }
         return treeList;
     }
